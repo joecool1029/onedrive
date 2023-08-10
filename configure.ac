@@ -21,7 +21,7 @@ AC_PROG_INSTALL
 PKG_PROG_PKG_CONFIG
 
 dnl Determine D compiler
-dnl we check for dmd, dmd2, and ldc2 in this order
+dnl we check for dmd, dmd2, gdc, and ldc2 in this order
 dnl furthermore, we set DC_TYPE to either dmd or ldc and export this into the
 dnl Makefile so that we can adjust command line arguments
 AC_CHECK_PROGS([DC], [dmd ldmd2 ldc2], NOT_FOUND)
@@ -29,6 +29,7 @@ DC_TYPE=
 case $(basename $DC) in
         dmd) DC_TYPE=dmd ;;
         ldmd2) DC_TYPE=dmd ;;
+	gdc) DCC_TYPE=gdc ;;
         ldc2) DC_TYPE=ldc ;;
         NOT_FOUND) AC_MSG_ERROR(Could not find any compatible D compiler, 1)
 esac
@@ -113,6 +114,16 @@ case $(basename $DC) in
 		VERSION=${VERSION%% *}
 		# now version should be something like L.M.N
 		MINVERSION=2.088.0
+		;;
+	gdc)
+		# GDC - the GNU D compiler (12.1.0): ...
+		VERSION=`$DC --version | head`
+		# remove everything up to first (
+		VERSION=${VERSION#*) }
+		# remove everything after space
+		VERSION=${VERSION%% *}
+		# now version should be something like L.M.N
+		MINVERSION=12.1.0
 		;;
 esac
 

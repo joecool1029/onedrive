@@ -2007,7 +2007,7 @@ $as_echo "no" >&6; }
 	fi
 fi
 
-for ac_prog in dmd ldmd2 ldc2
+for ac_prog in dmd gdc ldmd2 ldc2
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -2053,6 +2053,7 @@ test -n "$DC" || DC="NOT_FOUND"
 DC_TYPE=
 case $(basename $DC) in
         dmd) DC_TYPE=dmd ;;
+	gdc) DC_TYPE=gdc ;;
         ldmd2) DC_TYPE=dmd ;;
         ldc2) DC_TYPE=ldc ;;
         NOT_FOUND) as_fn_error 1 "Could not find any compatible D compiler" "$LINENO" 5
@@ -2142,6 +2143,16 @@ case $(basename $DC) in
 		VERSION=${VERSION%% *}
 		# now version should be something like L.M.N
 		MINVERSION=2.088.0
+		;;
+	gdc)
+		# GDC - the GNU D compiler (12.1.0): ...
+		VERSION=`$DC --version | head -n 1`
+		# remove everything up to first )
+		VERSION=${VERSION#*) }
+		# remove everything after space
+		VERSION=${VERSION%% *}
+		# now version should be something like L.M.N
+		MINVERSION=12.1.0
 		;;
 esac
 
