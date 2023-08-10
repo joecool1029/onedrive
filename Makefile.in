@@ -75,6 +75,7 @@ SOURCES = \
 	src/qxor.d \
 	src/selective.d \
 	src/sqlite.d \
+	src/sqlite3.d \
 	src/sync.d \
 	src/upload.d \
 	src/util.d \

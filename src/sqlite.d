@@ -1,6 +1,5 @@
 module sqlite;
 import std.stdio;
-import etc.c.sqlite3;
 import std.string: fromStringz, toStringz;
 import core.stdc.stdlib;
 import std.conv;
