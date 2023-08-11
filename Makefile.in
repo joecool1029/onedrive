@@ -35,6 +35,7 @@ DC = @DC@
 DC_TYPE = @DC_TYPE@
 DCFLAGS = @DCFLAGS@
 DCFLAGS += -w -g -O -J.
+GDCFLAGS = -Wall -O2 -J.
 ifeq ($(DEBUG),yes)
 ifeq ($(DC_TYPE),dmd)
 DCFLAGS += -debug -gs
@@ -104,7 +105,11 @@ onedrive: $(SOURCES)
 	else \
 		echo $(version) > version ; \
 	fi
+ifeq ($(DC_TYPE),gdc)
+	$(DC) ${GDCFLAGS} $(curl_LIBS) $(sqlite_LIBS) $(notify_LIBS) -ldl $(SOURCES) -o$@
+else
 	$(DC) $(DCFLAGS) $(addprefix -L,$(curl_LIBS)) $(addprefix -L,$(sqlite_LIBS)) $(addprefix -L,$(notify_LIBS)) -L-ldl $(SOURCES) -of$@
+endif
 
 install: all
 	$(INSTALL) -D onedrive $(DESTDIR)$(bindir)/onedrive
